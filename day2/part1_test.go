@@ -11,8 +11,8 @@ func TestReadInput(t *testing.T) {
 
 func TestReplaceInitialState(t *testing.T) {
 	input := []int{9, 9, 9, 9}
-	modified_input := replaceInitialState(input)
-	expected := []int{9, 12, 2, 9}
+	modified_input := replaceInitialState(input, 55, 3)
+	expected := []int{9, 55, 3, 9}
 	for i := range expected {
 		if expected[i] != modified_input[i] {
 			t.Errorf("state not modified properly")

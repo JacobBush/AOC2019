@@ -27,9 +27,9 @@ func readInput() []int {
 	return program
 }
 
-func replaceInitialState(program []int) []int {
-	program[1] = 12
-	program[2] = 2
+func replaceInitialState(program []int, a int, b int) []int {
+	program[1] = a
+	program[2] = b
 	return program
 }
 
@@ -58,7 +58,7 @@ func solveIntCode(program []int, position int) []int {
 
 func part1() {
 	program := readInput()
-	program = replaceInitialState(program)
+	program = replaceInitialState(program, 12, 2)
 	program = solveIntCode(program, 0)
-	fmt.Printf("Position 0 after program halts is: %d", program[0])
+	fmt.Printf("Position 0 after program halts is: %d\n", program[0])
 }

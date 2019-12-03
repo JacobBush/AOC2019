@@ -34,13 +34,22 @@ func replaceInitialState(program []int, a int, b int) []int {
 }
 
 func solveIntCode(program []int, position int) []int {
+	if position >= len(program) {
+		return nil
+	}
 	switch program[position] {
 	case 99:
 		return program
 	case 1:
+		if position+3 >= len(program) {
+			return nil
+		}
 		p1 := program[position+1]
 		p2 := program[position+2]
 		p3 := program[position+3]
+		if p1 >= len(program) || p2 >= len(program) || p3 >= len(program) {
+			return nil
+		}
 		program[p3] = program[p2] + program[p1]
 		return solveIntCode(program, position+4)
 	case 2:
@@ -51,7 +60,7 @@ func solveIntCode(program []int, position int) []int {
 		program[p3] = program[p2] * program[p1]
 		return solveIntCode(program, position+4)
 	default:
-		fmt.Printf("Unknown opcode encountered: %d", program[position])
+		fmt.Printf("Unknown opcode encountered: %d\n", program[position])
 		return nil
 	}
 }

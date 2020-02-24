@@ -25,5 +25,12 @@ func seg2Vec(seg string) [2]int {
 	}
 }
 
+func path2Vec(path []string) (vecpath [][2]int) {
+	for _, seg := range path {
+		vecpath = append(vecpath, seg2Vec(seg))
+	}
+	return
+}
+
 func part1() {
 }

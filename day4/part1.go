@@ -5,6 +5,7 @@ import (
 	"strconv"
 )
 
+// PART designates which part we are in
 var PART int
 
 func containsAdj(number string) bool {
@@ -13,6 +14,15 @@ func containsAdj(number string) bool {
 			continue
 		}
 		if number[i] == number[i-1] {
+			if PART == 1 {
+				return true
+			}
+			if i > 1 && number[i] == number[i-2] {
+				continue
+			}
+			if i < (len(number)-1) && number[i] == number[i+1] {
+				continue
+			}
 			return true
 		}
 	}
@@ -58,22 +68,22 @@ func readValidPasswords(readChannel, writeChannel chan int) {
 func findNumValidPasswordsInRange(lower, upper int) (numValidPasswords int) {
 	countChannel := make(chan int)
 
-	const n_threads = 4
-	stepSize := (upper - lower) / n_threads
+	const nThreads = 4
+	stepSize := (upper - lower) / nThreads
 
-	for i := 0; i < n_threads; i++ {
+	for i := 0; i < nThreads; i++ {
 		tempChannel := make(chan int)
 		sliceLower := lower + i*stepSize
 		sliceUpper := lower + (i+1)*stepSize
-		if i == n_threads-1 {
-			// Correct for floor operation - last thread will take up to (n_threads - 1) extra
+		if i == nThreads-1 {
+			// Correct for floor operation - last thread will take up to (nThreads - 1) extra
 			sliceUpper = upper
 		}
 		go writeValidPasswordsInRange(tempChannel, sliceLower, sliceUpper)
 		go readValidPasswords(tempChannel, countChannel)
 	}
 
-	for i := 0; i < n_threads; i++ {
+	for i := 0; i < nThreads; i++ {
 		numValidPasswords += <-countChannel
 	}
 

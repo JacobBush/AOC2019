@@ -6,6 +6,7 @@ import (
 )
 
 func TestContainsAdj(t *testing.T) {
+	PART = 1
 	input := []int{1111, 1234, 94423}
 	expected := []bool{true, false, true}
 	for i := range expected {
@@ -17,6 +18,7 @@ func TestContainsAdj(t *testing.T) {
 }
 
 func TestAlwaysIncr(t *testing.T) {
+	PART = 1
 	input := []int{1111, 1234, 94423}
 	expected := []bool{true, true, false}
 	for i := range expected {
@@ -28,6 +30,7 @@ func TestAlwaysIncr(t *testing.T) {
 }
 
 func TestIsValidPassword(t *testing.T) {
+	PART = 1
 	input := []int{111111, 223450, 123789}
 	expected := []bool{true, false, false}
 	for i := range expected {

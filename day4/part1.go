@@ -5,6 +5,8 @@ import (
 	"strconv"
 )
 
+var PART int
+
 func containsAdj(number string) bool {
 	for i := range number {
 		if i == 0 {
@@ -78,9 +80,11 @@ func findNumValidPasswordsInRange(lower, upper int) (numValidPasswords int) {
 	return
 }
 
+const lower = 372304
+const upper = 847060
+
 func part1() {
-	const lower = 372304
-	const upper = 847060
+	PART = 1
 	fmt.Println("Part 1")
 	validPasswordsCount := findNumValidPasswordsInRange(lower, upper)
 	fmt.Printf("There are %d valid passwords\n", validPasswordsCount)

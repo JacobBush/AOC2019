@@ -45,12 +45,30 @@ func writeValidPasswordsInRange(ch chan int, lower, upper int) {
 	close(ch)
 }
 
-func findNumValidPasswordsInRange(lower, upper int) (numValidPasswords int) {
-	ch := make(chan int)
-	go writeValidPasswordsInRange(ch, lower, upper)
-	for range ch {
-		numValidPasswords++
+func readValidPasswords(readChannel, writeChannel chan int) {
+	var count int
+	for range readChannel {
+		count++
 	}
+	writeChannel <- count
+}
+
+func findNumValidPasswordsInRange(lower, upper int) (numValidPasswords int) {
+	countChannel := make(chan int)
+
+	const n_threads = 1
+
+	for i := 0; i < n_threads; i++ {
+		// TODO: In order for n_threads to be > 1 we would need to have a way to divide the interval [lower, upper]
+		tempChannel := make(chan int)
+		go writeValidPasswordsInRange(tempChannel, lower, upper)
+		go readValidPasswords(tempChannel, countChannel)
+	}
+
+	for i := 0; i < n_threads; i++ {
+		numValidPasswords += <-countChannel
+	}
+
 	return
 }
 

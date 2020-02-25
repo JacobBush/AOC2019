@@ -36,6 +36,28 @@ func isValidPassword(password int) bool {
 	return containsAdj(strpass) && alwaysIncr(strpass)
 }
 
+func writeValidPasswordsInRange(ch chan int, lower, upper int) {
+	for i := lower; i <= upper; i++ {
+		if isValidPassword(i) {
+			ch <- i
+		}
+	}
+	close(ch)
+}
+
+func findNumValidPasswordsInRange(lower, upper int) (numValidPasswords int) {
+	ch := make(chan int)
+	go writeValidPasswordsInRange(ch, lower, upper)
+	for range ch {
+		numValidPasswords++
+	}
+	return
+}
+
 func part1() {
+	const lower = 372304
+	const upper = 847060
 	fmt.Println("Part 1")
+	validPasswordsCount := findNumValidPasswordsInRange(lower, upper)
+	fmt.Printf("There are %d valid passwords\n", validPasswordsCount)
 }
